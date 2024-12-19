@@ -21,11 +21,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().changeColor(0, "green");
 			},
 
-			getMessage: async () => {
+			login: async (email, password) => {
 				try{
 					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-					const data = await resp.json()
+					const response = await fetch(process.env.BACKEND_URL + "/api/login", {
+						method: "POST",
+						headers: {"Content-Type": "application/json"},
+						body:JSON.stringify({
+							email: email,
+							password: password
+						})
+					})
+
+					if (!response.ok){
+						throw new Error("Failed to login")
+					}
+					const data = await response.json()
 					setStore({ message: data.message })
 					// don't forget to return something, that is how the async resolves
 					return data;
