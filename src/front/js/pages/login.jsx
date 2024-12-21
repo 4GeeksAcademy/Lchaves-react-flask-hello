@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 export const Login = () => {
@@ -37,6 +37,8 @@ export const Login = () => {
                         />
                     </div>
                 </div>
+
+
                 <div className="row mb-3">
                     <label htmlFor="inputPassword3" className="col-sm-2 col-form-label">Password</label>
                     <div className="col-sm-10">
@@ -50,21 +52,12 @@ export const Login = () => {
                         />
                     </div>
                 </div>
-                <div className="row mb-3">
-                    <div className="col-sm-10 offset-sm-2">
-                        <div className="form-check">
-                            <input 
-                                className="form-check-input" 
-                                type="checkbox" 
-                                id="gridCheck1" 
-                            />
-                            <label className="form-check-label" htmlFor="gridCheck1">
-                                Example checkbox
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <button type="submit" className="btn btn-primary">Sign in</button>
+
+
+                
+                <button type="submit" className="btn btn-primary">Login</button>
+
+                
             </form>
         </div>
     );

@@ -37,6 +37,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error("Failed to login")
 					}
 					const data = await response.json()
+					sessionStorage.setItem("accessToken", data.access_token)
+
 					setStore({ message: data.message })
 					// don't forget to return something, that is how the async resolves
 					return data;

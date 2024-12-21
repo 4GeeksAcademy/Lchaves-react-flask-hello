@@ -53,7 +53,7 @@ def login():
 @jwt_required()
 def private():
 
-    current_user = get_jwt_identity()  # Get user identity from JWT
+    current_user = get_jwt_identity()  
     return jsonify({"message": f"Welcome {current_user['email']}! This is a private route."}), 200
 
 
