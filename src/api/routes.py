@@ -9,10 +9,7 @@ api = Blueprint('api', __name__)
 # SIGNUP Route
 @api.route('/signup', methods=['POST'])
 def signup():
-    """
-    Creates a new user account by hashing the provided password
-    and storing the email and password hash in the database.
-    """
+    
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
@@ -26,7 +23,7 @@ def signup():
 
     # Create a new user
     new_user = User(email=email)
-    new_user.set_password(password)  # Hash the password
+    new_user.set_password(password)  
     db.session.add(new_user)
     db.session.commit()
 
@@ -36,10 +33,7 @@ def signup():
 # LOGIN Route
 @api.route('/login', methods=['POST'])
 def login():
-    """
-    Authenticates the user using their email and password.
-    Returns a JWT token upon successful authentication.
-    """
+   
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
@@ -58,10 +52,7 @@ def login():
 @api.route('/private', methods=['GET'])
 @jwt_required()
 def private():
-    """
-    Validates the JWT token and allows access to private data
-    for authenticated users only.
-    """
+
     current_user = get_jwt_identity()  # Get user identity from JWT
     return jsonify({"message": f"Welcome {current_user['email']}! This is a private route."}), 200
 
@@ -69,9 +60,7 @@ def private():
 @api.route('/logout', methods=['POST'])
 @jwt_required()
 def logout():
-    """
-    Invalidate the token on the client-side (no server-side action here).
-    """
+   
     return jsonify({"message": "Logout successful. Delete your token from sessionStorage."}), 200
 
 
@@ -79,8 +68,6 @@ def logout():
 @api.route('/validate', methods=['GET'])
 @jwt_required()
 def validate():
-    """
-    Validates the current JWT token and returns the user's information.
-    """
+  
     current_user = get_jwt_identity()
     return jsonify({"user": current_user}), 200
