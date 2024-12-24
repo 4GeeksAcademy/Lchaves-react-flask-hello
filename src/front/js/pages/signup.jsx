@@ -4,10 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 export const Signup = () => {
   const [data, setData] = useState({
     email: "",
+    username: "",  
     password: "",
   });
-  const [errorMessage, setErrorMessage] = useState(""); // To store error messages
-  const navigate = useNavigate(); // To handle redirection after successful signup
+  const [errorMessage, setErrorMessage] = useState(""); 
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,6 +28,7 @@ export const Signup = () => {
         },
         body: JSON.stringify({
           email: data.email,
+          username: data.username,  
           password: data.password,
         }),
       });
@@ -35,7 +37,7 @@ export const Signup = () => {
         const errorData = await response.json();
         setErrorMessage(errorData.error || "Signup failed, please try again.");
       } else {
-        navigate("/login"); // Redirect to login on successful signup
+        navigate("/login"); 
       }
     } catch (error) {
       setErrorMessage("An error occurred, please try again.");
@@ -58,6 +60,24 @@ export const Signup = () => {
               id="inputEmail"
               name="email"
               value={data.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+
+        {/* Username Field */}
+        <div className="row mb-3">
+          <label htmlFor="inputUsername" className="col-sm-2 col-form-label">
+            Username
+          </label>
+          <div className="col-sm-10">
+            <input
+              type="text"
+              className="form-control"
+              id="inputUsername"
+              name="username"  
+              value={data.username}
               onChange={handleChange}
               required
             />
