@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
-
+import { useNavigate } from "react-router-dom";  
 export const Login = () => {
     const { store, actions } = useContext(Context);
     const [data, setData] = useState({
         email: "",
         password: ""
     });
+    const [errorMessage, setErrorMessage] = useState("");
+    const navigate = useNavigate(); 
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -18,7 +19,38 @@ export const Login = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        actions.login(data.email, data.password);
+        
+        
+        fetch('https://vigilant-guide-r4r7g7pwpwjgfwjvw-3001.app.github.dev/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: data.email,
+                password: data.password
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.token) {
+                
+                localStorage.setItem("authToken", data.token);
+                console.log('Login successful:', data);
+                setErrorMessage(''); 
+                
+                
+                navigate("/");  
+            } else {
+                
+                setErrorMessage('Invalid credentials. Please try again.');
+            }
+        })
+        .catch(error => {
+           
+            console.error('Error during login:', error);
+            setErrorMessage('Login failed. Please check your credentials.');
+        });
     };
 
     return (
@@ -38,7 +70,6 @@ export const Login = () => {
                     </div>
                 </div>
 
-
                 <div className="row mb-3">
                     <label htmlFor="inputPassword3" className="col-sm-2 col-form-label">Password</label>
                     <div className="col-sm-10">
@@ -53,11 +84,9 @@ export const Login = () => {
                     </div>
                 </div>
 
+                {errorMessage && <p className="text-danger">{errorMessage}</p>}
 
-                
                 <button type="submit" className="btn btn-primary">Login</button>
-
-                
             </form>
         </div>
     );

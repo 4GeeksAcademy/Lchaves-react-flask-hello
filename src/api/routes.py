@@ -9,7 +9,7 @@ def signup():
     data = request.get_json()
 
     email = data.get('email')
-    username = data.get('username')  
+    username = data.get('username')
     password = data.get('password')
 
     if not email or not username or not password:
@@ -34,11 +34,12 @@ def login():
 
     email = data.get('email')
     password = data.get('password')
+
     if not email or not password:
         return jsonify({"error": "Email and password are required"}), 400
 
     user = User.query.filter_by(email=email).first()
-    if not user or not user.check_password(password):
+    if not user or not user.check_password(password):  
         return jsonify({"error": "Invalid email or password"}), 401
 
     token = create_access_token(identity={"id": user.id, "email": user.email, "username": user.username})
@@ -55,8 +56,3 @@ def private():
 def logout():
     return jsonify({"message": "Logout successful. Delete your token from sessionStorage."}), 200
 
-@api.route('/validate', methods=['GET'])
-@jwt_required()
-def validate():
-    current_user = get_jwt_identity()
-    return jsonify({"user": current_user}), 200
