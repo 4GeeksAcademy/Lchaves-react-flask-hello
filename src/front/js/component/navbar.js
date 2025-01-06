@@ -5,19 +5,16 @@ export const Navbar = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        sessionStorage.removeItem('authToken');
-
-        navigate('/login');
+        sessionStorage.removeItem('authToken');  // Use sessionStorage to remove token
+        navigate('/login');  // Redirect to login after logout
     };
 
-    const isLoggedIn = !!sessionStorage.getItem('authToken');
+    const isLoggedIn = !!sessionStorage.getItem('authToken');  
 
     return (
         <nav className="navbar navbar-light bg-light mb-3">
             <div className="container">
-                <Link to="/" className="navbar-brand">
-                    MyApp
-                </Link>
+                <Link to="/" className="navbar-brand">Lchaves205's APP</Link>
                 <div className="ml-auto">
                     {!isLoggedIn ? (
                         <>
@@ -29,9 +26,7 @@ export const Navbar = () => {
                             </Link>
                         </>
                     ) : (
-                        <button className="btn btn-danger" onClick={handleLogout}>
-                            Logout
-                        </button>
+                        <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
                     )}
                 </div>
             </div>

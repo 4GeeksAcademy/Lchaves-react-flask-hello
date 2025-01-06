@@ -4,11 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 export const Signup = () => {
   const [data, setData] = useState({
     email: "",
-    username: "",  
+    username: "",
     password: "",
   });
-  const [errorMessage, setErrorMessage] = useState(""); 
-  const navigate = useNavigate(); 
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,7 +28,7 @@ export const Signup = () => {
         },
         body: JSON.stringify({
           email: data.email,
-          username: data.username,  
+          username: data.username,
           password: data.password,
         }),
       });
@@ -37,7 +37,14 @@ export const Signup = () => {
         const errorData = await response.json();
         setErrorMessage(errorData.error || "Signup failed, please try again.");
       } else {
-        navigate("/login"); 
+        const successData = await response.json();
+        if (successData.token) {
+          
+          sessionStorage.setItem("authToken", successData.token);
+          navigate("/private"); 
+        } else {
+          navigate("/login"); 
+        }
       }
     } catch (error) {
       setErrorMessage("An error occurred, please try again.");
@@ -48,7 +55,7 @@ export const Signup = () => {
     <div className="container">
       <h2>Create an Account</h2>
       <form onSubmit={handleSubmit}>
-        {/* Email Field */}
+        {}
         <div className="row mb-3">
           <label htmlFor="inputEmail" className="col-sm-2 col-form-label">
             Email
@@ -66,7 +73,7 @@ export const Signup = () => {
           </div>
         </div>
 
-        {/* Username Field */}
+        {}
         <div className="row mb-3">
           <label htmlFor="inputUsername" className="col-sm-2 col-form-label">
             Username
@@ -76,7 +83,7 @@ export const Signup = () => {
               type="text"
               className="form-control"
               id="inputUsername"
-              name="username"  
+              name="username"
               value={data.username}
               onChange={handleChange}
               required
@@ -84,7 +91,7 @@ export const Signup = () => {
           </div>
         </div>
 
-        {/* Password Field */}
+        {}
         <div className="row mb-3">
           <label htmlFor="inputPassword" className="col-sm-2 col-form-label">
             Password
@@ -102,14 +109,14 @@ export const Signup = () => {
           </div>
         </div>
 
-        {/* Error Message */}
+        {}
         {errorMessage && (
           <div className="alert alert-danger" role="alert">
             {errorMessage}
           </div>
         )}
 
-        {/* Submit Button */}
+        {}
         <button type="submit" className="btn btn-primary">
           Signup
         </button>

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
-import { useNavigate } from "react-router-dom";  
+import { useNavigate } from "react-router-dom";
+
 export const Login = () => {
     const { store, actions } = useContext(Context);
     const [data, setData] = useState({
@@ -20,7 +21,6 @@ export const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault();
         
-        
         fetch('https://vigilant-guide-r4r7g7pwpwjgfwjvw-3001.app.github.dev/api/login', {
             method: 'POST',
             headers: {
@@ -34,20 +34,15 @@ export const Login = () => {
         .then(response => response.json())
         .then(data => {
             if (data.token) {
-                
-                localStorage.setItem("authToken", data.token);
+                sessionStorage.setItem("authToken", data.token);  
                 console.log('Login successful:', data);
-                setErrorMessage(''); 
-                
-                
-                navigate("/");  
+                setErrorMessage('');
+                navigate("/private");  
             } else {
-                
                 setErrorMessage('Invalid credentials. Please try again.');
             }
         })
         .catch(error => {
-           
             console.error('Error during login:', error);
             setErrorMessage('Login failed. Please check your credentials.');
         });
